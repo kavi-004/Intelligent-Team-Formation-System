@@ -32,7 +32,7 @@ public class Participant {
 
     @Override
     public String toString() {
-        return "com.iit.tutorials.Participant{" +
+        return "com.iit.OOD.CW.Participant{" +
                 "name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", skillLevel=" + skillLevel +
