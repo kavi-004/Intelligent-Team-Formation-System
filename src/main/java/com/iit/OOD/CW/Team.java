@@ -37,11 +37,25 @@ public class Team {
         return total / members.size();
     }
 
+    public double getAveragePersonalityScore() {
+        if (members.isEmpty()) return 0.0;
+        double total = 0;
+        for (Participant p : members) {
+            total += p.getPersonalityScore();
+        }
+        return total / members.size();
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("com.iit.tutorials.Team: " + teamName + "\nMembers:\n");
+        StringBuilder sb = new StringBuilder("Team: " + teamName + "\nMembers:\n");
         for (Participant p : members) {
-            sb.append(" - ").append(p.getName()).append(" (").append(p.getRole()).append(")\n");
+            sb.append(" - ").append(p.getName())
+                    .append(" (Role: ").append(p.getRole())
+                    .append(", Game: ").append(p.getGame())
+                    .append(", Skill: ").append(p.getSkillLevel())
+                    .append(", Personality: ").append(p.getPersonalityScore())
+                    .append(")\n");
         }
         return sb.toString();
     }
