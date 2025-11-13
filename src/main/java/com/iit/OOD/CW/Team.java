@@ -1,4 +1,4 @@
-package com.iit.tutorials;
+package com.iit.OOD.CW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class Team {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Team: " + teamName + "\nMembers:\n");
+        StringBuilder sb = new StringBuilder("com.iit.tutorials.Team: " + teamName + "\nMembers:\n");
         for (Participant p : members) {
             sb.append(" - ").append(p.getName()).append(" (").append(p.getRole()).append(")\n");
         }

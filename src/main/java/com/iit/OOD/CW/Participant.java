@@ -1,4 +1,4 @@
-package com.iit.tutorials;
+package com.iit.OOD.CW;
 
 public class Participant {
     private String name;
@@ -32,7 +32,7 @@ public class Participant {
 
     @Override
     public String toString() {
-        return "Participant{" +
+        return "com.iit.tutorials.Participant{" +
                 "name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", skillLevel=" + skillLevel +
