@@ -6,8 +6,10 @@ public class SurveyProcessor {
 
     public List<Participant> processSurveyData(String filePath) {
         System.out.println("📋 Processing survey data from: " + filePath);
-        List<Participant> participants = FileHandler.readParticipantsFromCSV(filePath);
-        System.out.println("✅ " + participants.size() + " participants loaded successfully!");
+
+        FileHandler fileHandler = new FileHandler();
+        List<Participant> participants = fileHandler.loadParticipants(filePath);
+
         return participants;
     }
 }
