@@ -38,7 +38,6 @@ public class Main {
 
         // --- Personality Questions ---
         System.out.println("\n=== 5-Question Personality Survey (Rate 1–5) ===");
-
         String[] questions = {
                 "Q1: I enjoy taking the lead and guiding others during group activities.",
                 "Q2: I prefer analyzing situations and coming up with strategic solutions.",
@@ -48,22 +47,24 @@ public class Main {
         };
 
         int score = 0;
-        for (int i = 0; i < questions.length; i++) {
-            System.out.println(questions[i]);
+        for (String question : questions) {
+            System.out.println(question);
             System.out.print("Your answer (1-5): ");
             score += Integer.parseInt(sc.nextLine());
         }
 
-        int personalityScore = score * 4; // 5–25 → scale to 20–100
+        int personalityScore = score * 4; // scale to 100
         String personalityType = PersonalityClassifier.classifyPersonality(personalityScore);
 
-        Participant newUser = new Participant(
-                id, name, email, game, skill, role, personalityScore, personalityType
-        );
+        Participant newUser = new Participant(id, name, email, game, skill, role, personalityScore, personalityType);
         participants.add(newUser);
 
-        // Step 3: Build teams of size 5
-        TeamBuilder builder = new TeamBuilder(participants, 5);
+        // --- Ask user for team size ---
+        System.out.print("\nEnter the number of participants per team: ");
+        int teamSize = Integer.parseInt(sc.nextLine());
+
+        // Step 3: Build teams of user-defined size
+        TeamBuilder builder = new TeamBuilder(participants, teamSize);
         List<Team> teams = builder.formTeams();
 
         // Step 4: Print all teams
@@ -72,7 +73,7 @@ public class Main {
             System.out.println(t);
         }
 
-        // Step 5: Print new user's team
+        // Step 5: Print the team containing the new user
         System.out.println("\n=== Your Team Placement ===");
         for (Team t : teams) {
             if (t.getMembers().contains(newUser)) {
@@ -82,10 +83,9 @@ public class Main {
             }
         }
 
-        // Step 6: Save teams to file
+        // Step 6: Save teams to CSV inside package
         FileHandler fh = new FileHandler();
         fh.saveTeamsToCSV(teams, "src/main/java/com/iit/OOD/CW/formed_teams.csv");
-
 
         System.out.println("🏁 Team formation complete!");
     }
