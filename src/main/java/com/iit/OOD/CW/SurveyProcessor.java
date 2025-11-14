@@ -8,7 +8,7 @@ public class SurveyProcessor {
         System.out.println("📋 Processing survey data from: " + filePath);
 
         FileHandler fileHandler = new FileHandler();
-        List<Participant> participants = fileHandler.loadParticipants(filePath);
+        List<Participant> participants = fileHandler.readParticipantsFromCSV(filePath);
 
         return participants;
     }
