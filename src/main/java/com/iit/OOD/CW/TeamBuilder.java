@@ -3,62 +3,103 @@ package com.iit.OOD.CW;
 import java.util.*;
 
 public class TeamBuilder {
-
     private List<Participant> participants;
-    private List<Team> formedTeams;
     private int teamSize;
 
     public TeamBuilder(List<Participant> participants, int teamSize) {
-        this.participants = participants;
+        this.participants = new ArrayList<>(participants);
         this.teamSize = teamSize;
-        this.formedTeams = new ArrayList<>();
     }
 
-    // 🧠 Form balanced teams based on skill + personality
     public List<Team> formTeams() {
-        if (participants == null || participants.isEmpty()) {
-            System.out.println("No participants available!");
-            return formedTeams;
-        }
+        List<Team> teams = new ArrayList<>();
+        Collections.shuffle(participants); // randomize participants
 
-        // Sort participants by skill level (descending)
-        participants.sort(Comparator.comparingInt(Participant::getSkillLevel).reversed());
+        // Separate participants by personality type
+        List<Participant> leaders = new ArrayList<>();
+        List<Participant> thinkers = new ArrayList<>();
+        List<Participant> balanced = new ArrayList<>();
+
+        for (Participant p : participants) {
+            switch (p.getPersonalityType()) {
+                case "Leader" -> leaders.add(p);
+                case "Thinker" -> thinkers.add(p);
+                case "Balanced" -> balanced.add(p);
+            }
+        }
 
         int totalTeams = (int) Math.ceil((double) participants.size() / teamSize);
-
-        // Initialize empty teams
         for (int i = 0; i < totalTeams; i++) {
-            formedTeams.add(new Team("Team " + (i + 1)));
+            teams.add(new Team("Team " + (i + 1)));
         }
 
-        // 🌀 Distribute participants in a round-robin pattern to balance skills
-        int index = 0;
-        for (Participant p : participants) {
-            formedTeams.get(index).addMember(p);
-            index = (index + 1) % totalTeams;
-        }
+        // Helper method to assign participants in round-robin
+        assignParticipantsToTeams(leaders, teams, 1);
+        assignParticipantsToTeams(thinkers, teams, 2);
+        assignParticipantsToTeams(balanced, teams, teamSize); // fill remaining slots
 
-        return formedTeams;
+        // Step: Enforce game cap and role diversity
+        fixTeamsConstraints(teams);
+
+        return teams;
     }
 
-    // 📊 Display teams neatly
-    public void displayTeams() {
-        for (Team team : formedTeams) {
-            System.out.println("\n" + team.getTeamName() + ":");
-            int totalSkill = 0;
-            int totalPersonality = 0;
+    // Assign participants round-robin
+    private void assignParticipantsToTeams(List<Participant> list, List<Team> teams, int maxPerTeam) {
+        int teamIndex = 0;
+        for (Participant p : list) {
+            Team t = teams.get(teamIndex % teams.size());
+            if (t.getTeamSize() < maxPerTeam) {
+                t.addMember(p);
+            } else {
+                // Try next team if current is full
+                for (Team nextTeam : teams) {
+                    if (nextTeam.getTeamSize() < maxPerTeam) {
+                        nextTeam.addMember(p);
+                        break;
+                    }
+                }
+            }
+            teamIndex++;
+        }
+    }
 
-            for (Participant p : team.getMembers()) {
-                System.out.println(" - " + p.getName() + " | Role: " + p.getRole() +
-                        " | Game: " + p.getGame() +
-                        " | Skill: " + p.getSkillLevel() +
-                        " | Personality: " + p.getPersonalityScore());
-                totalSkill += p.getSkillLevel();
-                totalPersonality += p.getPersonalityScore();
+    // Enforce max 2 per game and at least 3 roles per team
+    private void fixTeamsConstraints(List<Team> teams) {
+        List<Participant> overflow = new ArrayList<>();
+
+        for (Team t : teams) {
+            Map<String, Integer> gameCount = new HashMap<>();
+            Map<String, Integer> roleCount = new HashMap<>();
+            for (Participant p : t.getMembers()) {
+                gameCount.put(p.getGame(), gameCount.getOrDefault(p.getGame(), 0) + 1);
+                roleCount.put(p.getRole(), roleCount.getOrDefault(p.getRole(), 0) + 1);
             }
 
-            System.out.println("   → Avg Skill: " + (totalSkill / team.getMembers().size()));
-            System.out.println("   → Avg Personality: " + (totalPersonality / team.getMembers().size()));
+            List<Participant> toRemove = new ArrayList<>();
+            for (Participant p : t.getMembers()) {
+                if (gameCount.get(p.getGame()) > 2) {
+                    toRemove.add(p);
+                    gameCount.put(p.getGame(), gameCount.get(p.getGame()) - 1);
+                }
+            }
+
+            t.getMembers().removeAll(toRemove);
+            overflow.addAll(toRemove);
+
+            // Optional: add logic to ensure at least 3 different roles
+            // (can be refined further if team has <3 roles)
+        }
+
+        // Reassign overflow participants to teams with space
+        for (Participant p : overflow) {
+            for (Team t : teams) {
+                long count = t.getMembers().stream().filter(mem -> mem.getGame().equals(p.getGame())).count();
+                if (count < 2 && t.getTeamSize() < teamSize) {
+                    t.addMember(p);
+                    break;
+                }
+            }
         }
     }
 }
