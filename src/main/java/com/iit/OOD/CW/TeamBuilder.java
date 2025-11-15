@@ -87,8 +87,7 @@ public class TeamBuilder {
             t.getMembers().removeAll(toRemove);
             overflow.addAll(toRemove);
 
-            // Optional: add logic to ensure at least 3 different roles
-            // (can be refined further if team has <3 roles)
+
         }
 
         // Reassign overflow participants to teams with space
