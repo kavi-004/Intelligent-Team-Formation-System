@@ -22,9 +22,7 @@ public class PersonalityClassifier {
         }
     }
 
-    /**
-     * Valid personality score 0–100
-     */
+    /*** Valid personality score 0–100 */
     public static boolean isValidScore(int score) {
         return score >= 0 && score <= 100;
     }
