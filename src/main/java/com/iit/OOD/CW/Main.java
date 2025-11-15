@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("=== 🧩 Intelligent Team Formation System ===");
+        System.out.println("Intelligent Team Formation System");
 
         // Step 1: Load participants
         String filePath = "E:\\Y02\\sem 1\\CM2601 Object oriented development (PROG)\\CW\\Starter pack\\participants_sample.csv";
