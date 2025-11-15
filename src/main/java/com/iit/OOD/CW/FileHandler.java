@@ -43,9 +43,9 @@ public class FileHandler {
             }
 
         } catch (IOException e) {
-            System.out.println("❌ Error reading CSV file: " + e.getMessage());
+            System.out.println(" Error reading CSV file: " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.out.println("⚠️ Invalid number format in CSV: " + e.getMessage());
+            System.out.println(" Invalid number format in CSV: " + e.getMessage());
         }
 
         System.out.println("✅ " + participants.size() + " participants loaded successfully!");
