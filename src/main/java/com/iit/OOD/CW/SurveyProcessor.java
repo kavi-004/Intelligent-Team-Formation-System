@@ -5,7 +5,7 @@ import java.util.List;
 public class SurveyProcessor {
 
     public List<Participant> processSurveyData(String filePath) {
-        System.out.println("📋 Processing survey data from: " + filePath);
+        System.out.println("Processing survey data from: " + filePath);
 
         FileHandler fileHandler = new FileHandler();
         List<Participant> participants = fileHandler.readParticipantsFromCSV(filePath);
