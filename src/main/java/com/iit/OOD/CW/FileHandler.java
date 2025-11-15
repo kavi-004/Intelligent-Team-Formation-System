@@ -48,7 +48,7 @@ public class FileHandler {
             System.out.println(" Invalid number format in CSV: " + e.getMessage());
         }
 
-        System.out.println("✅ " + participants.size() + " participants loaded successfully!");
+        System.out.println( participants.size() + " participants loaded successfully!");
         return participants;
     }
 
