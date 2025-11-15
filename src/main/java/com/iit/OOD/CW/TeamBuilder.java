@@ -87,7 +87,6 @@ public class TeamBuilder {
             t.getMembers().removeAll(toRemove);
             overflow.addAll(toRemove);
 
-
         }
 
         // Reassign overflow participants to teams with space
