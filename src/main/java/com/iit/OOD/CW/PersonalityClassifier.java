@@ -41,4 +41,5 @@ public class PersonalityClassifier {
             default: return 0;
         }
     }
+
 }
