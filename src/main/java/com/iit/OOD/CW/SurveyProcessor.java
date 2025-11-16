@@ -13,4 +13,3 @@ public class SurveyProcessor {
         return participants;
     }
 }
-
