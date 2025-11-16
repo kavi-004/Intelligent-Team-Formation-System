@@ -49,5 +49,7 @@ public class Participant {
                 "Participant{id='%s', name='%s', email='%s', game='%s', skillLevel=%d, role='%s', score=%d, type='%s'}",
                 id, name, email, game, skillLevel, role, personalityScore, personalityType
         );
+
     }
+
 }
