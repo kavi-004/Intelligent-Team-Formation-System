@@ -52,9 +52,8 @@ public class FileHandler {
         return participants;
     }
 
-    // =========================================================
+
     // SAVE TEAMS TO FILE
-    // =========================================================
     public void saveTeamsToCSV(List<Team> teams, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
