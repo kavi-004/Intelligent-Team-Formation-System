@@ -12,7 +12,7 @@ public class Main {
         String filePath = "E:\\Y02\\sem 1\\CM2601 Object oriented development (PROG)\\CW\\Starter pack\\participants_sample.csv";
         List<Participant> participants = FileHandler.readParticipantsFromCSV(filePath);
 
-        System.out.println("✅ " + participants.size() + " participants loaded successfully!");
+        System.out.println( participants.size() + " participants loaded successfully!");
 
         // Step 2: Take user input to classify into a team
         Scanner sc = new Scanner(System.in);
