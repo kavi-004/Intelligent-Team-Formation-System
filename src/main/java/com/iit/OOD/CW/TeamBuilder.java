@@ -89,7 +89,7 @@ public class TeamBuilder {
 
         }
 
-        // Reassign overflow participants to teams with space
+         // Reassign overflow participants to teams with space
         for (Participant p : overflow) {
             for (Team t : teams) {
                 long count = t.getMembers().stream().filter(mem -> mem.getGame().equals(p.getGame())).count();
