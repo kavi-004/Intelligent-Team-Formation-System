@@ -16,7 +16,7 @@ public class Main {
 
         // Step 2: Take user input to classify into a team
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n=== Add Yourself to a Team ===");
+        System.out.println("\nAdd Yourself to a Team");
 
         System.out.print("Enter your ID: ");
         String id = sc.nextLine();
