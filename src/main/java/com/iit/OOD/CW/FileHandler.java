@@ -53,10 +53,7 @@ public class FileHandler {
     }
 
 
-
-    // =========================================================
     // SAVE TEAMS TO CSV (UPDATED AS YOU REQUESTED)
-    // =========================================================
     public void saveTeamsToCSV(List<Team> teams, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
