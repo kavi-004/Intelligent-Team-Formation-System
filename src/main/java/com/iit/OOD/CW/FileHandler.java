@@ -7,7 +7,7 @@ import java.util.List;
 public class FileHandler {
 
     // =========================================================
-    // READ PARTICIPANTS FROM CSV  (Main EXPECTS this method!)
+    // READ PARTICIPANTS FROM CSV
     // =========================================================
     public static List<Participant> readParticipantsFromCSV(String filePath) {
         List<Participant> participants = new ArrayList<>();
@@ -26,7 +26,7 @@ public class FileHandler {
 
                 String[] data = line.split(",");
 
-                if (data.length < 8) continue; // ignore incomplete rows
+                if (data.length < 8) continue;
 
                 String id = data[0].trim();
                 String name = data[1].trim();
@@ -43,38 +43,50 @@ public class FileHandler {
             }
 
         } catch (IOException e) {
-            System.out.println(" Error reading CSV file: " + e.getMessage());
+            System.out.println("❌ Error reading CSV file: " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.out.println(" Invalid number format in CSV: " + e.getMessage());
+            System.out.println("⚠️ Invalid number format in CSV: " + e.getMessage());
         }
 
-        System.out.println( participants.size() + " participants loaded successfully!");
+        System.out.println("📌 " + participants.size() + " participants loaded successfully!");
         return participants;
     }
 
 
-    // SAVE TEAMS TO FILE
+
+    // =========================================================
+    // SAVE TEAMS TO CSV (UPDATED AS YOU REQUESTED)
+    // =========================================================
     public void saveTeamsToCSV(List<Team> teams, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 
+            // CSV header
+            writer.write("Team,ID,Name,Email,PreferredGame,SkillLevel,PreferredRole,PersonalityScore,PersonalityType");
+            writer.newLine();
+
+            // Write each participant as a row
             for (Team team : teams) {
-                writer.write("Team: " + team.getTeamName() + "\n");
-
                 for (Participant p : team.getMembers()) {
-                    writer.write(String.format(
-                            " - %s | %s | %s | Skill:%d | Role:%s | Personality:%s\n",
-                            p.getName(), p.getEmail(), p.getGame(),
-                            p.getSkillLevel(), p.getRole(), p.getPersonalityType()
-                    ));
-                }
 
-                writer.write("\n");
+                    writer.write(
+                            team.getTeamName() + "," +
+                                    p.getId() + "," +
+                                    p.getName() + "," +
+                                    p.getEmail() + "," +
+                                    p.getGame() + "," +
+                                    p.getSkillLevel() + "," +
+                                    p.getRole() + "," +
+                                    p.getPersonalityScore() + "," +
+                                    p.getPersonalityType()
+                    );
+                    writer.newLine();
+                }
             }
 
-            System.out.println("✅ Teams successfully written to " + filePath);
+            System.out.println("✅ Formed teams CSV created successfully → " + filePath);
 
         } catch (IOException e) {
-            System.out.println("❌ Error writing teams to file: " + e.getMessage());
+            System.out.println("❌ Error writing CSV: " + e.getMessage());
         }
     }
 }
