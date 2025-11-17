@@ -1,138 +1,77 @@
-Team: Team 1
- - Participant_91 | user91@university.edu | FIFA | Skill:10 | Role:Strategist | Personality:Leader
- - Participant_9 | user9@university.edu | CS:GO | Skill:6 | Role:Supporter | Personality:Thinker
- - Participant_26 | user26@university.edu | Chess | Skill:8 | Role:Strategist | Personality:Balanced
- - Participant_77 | user77@university.edu | FIFA | Skill:2 | Role:Attacker | Personality:Balanced
-
-Team: Team 2
- - Participant_79 | user79@university.edu | Chess | Skill:5 | Role:Supporter | Personality:Leader
- - Participant_72 | user72@university.edu | DOTA 2 | Skill:5 | Role:Attacker | Personality:Thinker
- - Participant_8 | user8@university.edu | Valorant | Skill:10 | Role:Defender | Personality:Balanced
- - Participant_23 | user23@university.edu | CS:GO | Skill:3 | Role:Defender | Personality:Balanced
-
-Team: Team 3
- - Participant_94 | user94@university.edu | CS:GO | Skill:2 | Role:Supporter | Personality:Leader
- - Participant_90 | user90@university.edu | Chess | Skill:5 | Role:Coordinator | Personality:Thinker
- - Participant_68 | user68@university.edu | Chess | Skill:1 | Role:Defender | Personality:Balanced
- - Participant_5 | user5@university.edu | CS:GO | Skill:9 | Role:Coordinator | Personality:Balanced
-
-Team: Team 4
- - Participant_61 | user61@university.edu | CS:GO | Skill:7 | Role:Strategist | Personality:Leader
- - Participant_48 | user48@university.edu | Valorant | Skill:6 | Role:Defender | Personality:Thinker
- - Participant_83 | user83@university.edu | DOTA 2 | Skill:10 | Role:Defender | Personality:Balanced
- - Participant_53 | user53@university.edu | DOTA 2 | Skill:7 | Role:Defender | Personality:Balanced
-
-Team: Team 5
- - Participant_100 | user100@university.edu | CS:GO | Skill:7 | Role:Coordinator | Personality:Leader
- - Participant_51 | user51@university.edu | FIFA | Skill:2 | Role:Strategist | Personality:Thinker
- - Participant_32 | user32@university.edu | DOTA 2 | Skill:2 | Role:Attacker | Personality:Balanced
- - Participant_74 | user74@university.edu | FIFA | Skill:3 | Role:Supporter | Personality:Balanced
-
-Team: Team 6
- - Participant_4 | user4@university.edu | Basketball | Skill:4 | Role:Supporter | Personality:Leader
- - Participant_81 | user81@university.edu | FIFA | Skill:10 | Role:Strategist | Personality:Thinker
- - Participant_17 | user17@university.edu | CS:GO | Skill:10 | Role:Attacker | Personality:Balanced
- - Participant_59 | user59@university.edu | DOTA 2 | Skill:4 | Role:Supporter | Personality:Balanced
-
-Team: Team 7
- - Participant_73 | user73@university.edu | DOTA 2 | Skill:8 | Role:Defender | Personality:Leader
- - Participant_78 | user78@university.edu | FIFA | Skill:6 | Role:Defender | Personality:Thinker
- - kavindya | kavindya@gmail.com | chess | Skill:7 | Role:attacker | Personality:Balanced
- - Participant_62 | user62@university.edu | Basketball | Skill:6 | Role:Attacker | Personality:Balanced
-
-Team: Team 8
- - Participant_85 | user85@university.edu | Basketball | Skill:10 | Role:Coordinator | Personality:Leader
- - Participant_27 | user27@university.edu | Chess | Skill:6 | Role:Attacker | Personality:Thinker
- - Participant_47 | user47@university.edu | DOTA 2 | Skill:10 | Role:Attacker | Personality:Balanced
- - Participant_14 | user14@university.edu | FIFA | Skill:3 | Role:Supporter | Personality:Balanced
-
-Team: Team 9
- - Participant_13 | user13@university.edu | DOTA 2 | Skill:4 | Role:Defender | Personality:Leader
- - Participant_21 | user21@university.edu | FIFA | Skill:4 | Role:Strategist | Personality:Thinker
- - Participant_86 | user86@university.edu | FIFA | Skill:9 | Role:Strategist | Personality:Balanced
-
-Team: Team 10
- - Participant_10 | user10@university.edu | Valorant | Skill:5 | Role:Coordinator | Personality:Leader
- - Participant_93 | user93@university.edu | CS:GO | Skill:4 | Role:Defender | Personality:Thinker
- - Participant_38 | user38@university.edu | Valorant | Skill:1 | Role:Defender | Personality:Balanced
-
-Team: Team 11
- - Participant_82 | user82@university.edu | Valorant | Skill:10 | Role:Attacker | Personality:Leader
- - Participant_57 | user57@university.edu | CS:GO | Skill:7 | Role:Attacker | Personality:Thinker
- - Participant_98 | user98@university.edu | CS:GO | Skill:5 | Role:Defender | Personality:Balanced
-
-Team: Team 12
- - Participant_52 | user52@university.edu | FIFA | Skill:2 | Role:Attacker | Personality:Leader
- - Participant_99 | user99@university.edu | Valorant | Skill:3 | Role:Supporter | Personality:Thinker
- - Participant_71 | user71@university.edu | Chess | Skill:8 | Role:Strategist | Personality:Balanced
-
-Team: Team 13
- - Participant_76 | user76@university.edu | FIFA | Skill:7 | Role:Strategist | Personality:Leader
- - Participant_75 | user75@university.edu | Valorant | Skill:8 | Role:Coordinator | Personality:Thinker
- - Participant_65 | user65@university.edu | DOTA 2 | Skill:7 | Role:Coordinator | Personality:Balanced
-
-Team: Team 14
- - Participant_34 | user34@university.edu | FIFA | Skill:7 | Role:Supporter | Personality:Leader
- - Participant_36 | user36@university.edu | Chess | Skill:9 | Role:Strategist | Personality:Thinker
- - Participant_35 | user35@university.edu | Basketball | Skill:8 | Role:Coordinator | Personality:Balanced
-
-Team: Team 15
- - Participant_46 | user46@university.edu | CS:GO | Skill:5 | Role:Strategist | Personality:Leader
- - Participant_60 | user60@university.edu | CS:GO | Skill:4 | Role:Coordinator | Personality:Thinker
- - Participant_92 | user92@university.edu | Basketball | Skill:7 | Role:Attacker | Personality:Balanced
-
-Team: Team 16
- - Participant_19 | user19@university.edu | FIFA | Skill:9 | Role:Supporter | Personality:Leader
- - Participant_33 | user33@university.edu | FIFA | Skill:7 | Role:Defender | Personality:Thinker
- - Participant_56 | user56@university.edu | Basketball | Skill:4 | Role:Strategist | Personality:Balanced
-
-Team: Team 17
- - Participant_70 | user70@university.edu | Basketball | Skill:1 | Role:Coordinator | Personality:Leader
- - Participant_45 | user45@university.edu | Chess | Skill:2 | Role:Coordinator | Personality:Thinker
- - Participant_29 | user29@university.edu | Basketball | Skill:5 | Role:Supporter | Personality:Balanced
-
-Team: Team 18
- - Participant_25 | user25@university.edu | FIFA | Skill:9 | Role:Coordinator | Personality:Leader
- - Participant_15 | user15@university.edu | DOTA 2 | Skill:8 | Role:Coordinator | Personality:Thinker
- - Participant_44 | user44@university.edu | FIFA | Skill:6 | Role:Supporter | Personality:Balanced
-
-Team: Team 19
- - Participant_31 | user31@university.edu | Basketball | Skill:8 | Role:Strategist | Personality:Leader
- - Participant_18 | user18@university.edu | FIFA | Skill:3 | Role:Defender | Personality:Thinker
- - Participant_95 | user95@university.edu | CS:GO | Skill:2 | Role:Coordinator | Personality:Balanced
-
-Team: Team 20
- - Participant_55 | user55@university.edu | Chess | Skill:8 | Role:Coordinator | Personality:Leader
- - Participant_87 | user87@university.edu | Basketball | Skill:4 | Role:Attacker | Personality:Thinker
- - Participant_50 | user50@university.edu | Basketball | Skill:5 | Role:Coordinator | Personality:Balanced
-
-Team: Team 21
- - Participant_1 | user1@university.edu | Chess | Skill:2 | Role:Strategist | Personality:Leader
- - Participant_66 | user66@university.edu | Chess | Skill:1 | Role:Strategist | Personality:Thinker
- - Participant_20 | user20@university.edu | Valorant | Skill:3 | Role:Coordinator | Personality:Balanced
-
-Team: Team 22
- - Participant_88 | user88@university.edu | FIFA | Skill:4 | Role:Defender | Personality:Leader
- - Participant_69 | user69@university.edu | CS:GO | Skill:5 | Role:Supporter | Personality:Thinker
- - Participant_2 | user2@university.edu | FIFA | Skill:5 | Role:Attacker | Personality:Balanced
-
-Team: Team 23
- - Participant_16 | user16@university.edu | CS:GO | Skill:6 | Role:Strategist | Personality:Leader
- - Participant_24 | user24@university.edu | DOTA 2 | Skill:7 | Role:Supporter | Personality:Thinker
- - Participant_89 | user89@university.edu | Chess | Skill:6 | Role:Supporter | Personality:Balanced
-
-Team: Team 24
- - Participant_64 | user64@university.edu | CS:GO | Skill:6 | Role:Supporter | Personality:Leader
- - Participant_30 | user30@university.edu | CS:GO | Skill:4 | Role:Coordinator | Personality:Thinker
- - Participant_80 | user80@university.edu | Basketball | Skill:1 | Role:Coordinator | Personality:Balanced
-
-Team: Team 25
- - Participant_7 | user7@university.edu | DOTA 2 | Skill:5 | Role:Attacker | Personality:Leader
- - Participant_96 | user96@university.edu | DOTA 2 | Skill:8 | Role:Strategist | Personality:Thinker
- - Participant_11 | user11@university.edu | Basketball | Skill:8 | Role:Strategist | Personality:Balanced
-
-Team: Team 26
- - Participant_43 | user43@university.edu | DOTA 2 | Skill:2 | Role:Defender | Personality:Leader
- - Participant_54 | user54@university.edu | Valorant | Skill:8 | Role:Supporter | Personality:Thinker
- - Participant_41 | user41@university.edu | Basketball | Skill:5 | Role:Strategist | Personality:Balanced
-
+Team,ID,Name,Email,PreferredGame,SkillLevel,PreferredRole,PersonalityScore,PersonalityType
+Team 1,P100,Participant_100,user100@university.edu,CS:GO,7,Coordinator,97,Leader
+Team 1,P027,Participant_27,user27@university.edu,Chess,6,Attacker,53,Thinker
+Team 1,P092,Participant_92,user92@university.edu,Basketball,7,Attacker,70,Balanced
+Team 1,2004,kavindya,kavindya@gmail.com,chess,6,strategist,80,Balanced
+Team 1,P033,Participant_33,user33@university.edu,FIFA,7,Defender,65,Thinker
+Team 2,P088,Participant_88,user88@university.edu,FIFA,4,Defender,92,Leader
+Team 2,P042,Participant_42,user42@university.edu,DOTA 2,7,Attacker,53,Thinker
+Team 2,P014,Participant_14,user14@university.edu,FIFA,3,Supporter,73,Balanced
+Team 2,P095,Participant_95,user95@university.edu,CS:GO,2,Coordinator,84,Balanced
+Team 2,P031,Participant_31,user31@university.edu,Basketball,8,Strategist,97,Leader
+Team 3,P070,Participant_70,user70@university.edu,Basketball,1,Coordinator,96,Leader
+Team 3,P086,Participant_86,user86@university.edu,FIFA,9,Strategist,89,Balanced
+Team 3,P074,Participant_74,user74@university.edu,FIFA,3,Supporter,82,Balanced
+Team 3,P064,Participant_64,user64@university.edu,CS:GO,6,Supporter,92,Leader
+Team 3,P016,Participant_16,user16@university.edu,CS:GO,6,Strategist,90,Leader
+Team 4,P043,Participant_43,user43@university.edu,DOTA 2,2,Defender,100,Leader
+Team 4,P006,Participant_6,user6@university.edu,CS:GO,2,Strategist,57,Thinker
+Team 4,P068,Participant_68,user68@university.edu,Chess,1,Defender,80,Balanced
+Team 4,P053,Participant_53,user53@university.edu,DOTA 2,7,Defender,71,Balanced
+Team 5,P012,Participant_12,user12@university.edu,DOTA 2,3,Attacker,63,Thinker
+Team 5,P050,Participant_50,user50@university.edu,Basketball,5,Coordinator,70,Balanced
+Team 5,P011,Participant_11,user11@university.edu,Basketball,8,Strategist,84,Balanced
+Team 6,P052,Participant_52,user52@university.edu,FIFA,2,Attacker,99,Leader
+Team 6,P054,Participant_54,user54@university.edu,Valorant,8,Supporter,69,Thinker
+Team 6,P059,Participant_59,user59@university.edu,DOTA 2,4,Supporter,79,Balanced
+Team 6,P080,Participant_80,user80@university.edu,Basketball,1,Coordinator,82,Balanced
+Team 7,P060,Participant_60,user60@university.edu,CS:GO,4,Coordinator,57,Thinker
+Team 7,P020,Participant_20,user20@university.edu,Valorant,3,Coordinator,82,Balanced
+Team 7,P098,Participant_98,user98@university.edu,CS:GO,5,Defender,83,Balanced
+Team 8,P057,Participant_57,user57@university.edu,CS:GO,7,Attacker,54,Thinker
+Team 8,P029,Participant_29,user29@university.edu,Basketball,5,Supporter,77,Balanced
+Team 8,P005,Participant_5,user5@university.edu,CS:GO,9,Coordinator,82,Balanced
+Team 9,P019,Participant_19,user19@university.edu,FIFA,9,Supporter,95,Leader
+Team 9,P045,Participant_45,user45@university.edu,Chess,2,Coordinator,68,Thinker
+Team 9,P047,Participant_47,user47@university.edu,DOTA 2,10,Attacker,78,Balanced
+Team 9,P083,Participant_83,user83@university.edu,DOTA 2,10,Defender,75,Balanced
+Team 10,P037,Participant_37,user37@university.edu,DOTA 2,8,Attacker,100,Leader
+Team 10,P078,Participant_78,user78@university.edu,FIFA,6,Defender,51,Thinker
+Team 10,P035,Participant_35,user35@university.edu,Basketball,8,Coordinator,78,Balanced
+Team 10,P008,Participant_8,user8@university.edu,Valorant,10,Defender,81,Balanced
+Team 11,P007,Participant_7,user7@university.edu,DOTA 2,5,Attacker,93,Leader
+Team 11,P039,Participant_39,user39@university.edu,FIFA,5,Supporter,66,Thinker
+Team 11,P023,Participant_23,user23@university.edu,CS:GO,3,Defender,87,Balanced
+Team 11,P041,Participant_41,user41@university.edu,Basketball,5,Strategist,70,Balanced
+Team 12,P028,Participant_28,user28@university.edu,CS:GO,8,Defender,90,Leader
+Team 12,P075,Participant_75,user75@university.edu,Valorant,8,Coordinator,53,Thinker
+Team 12,P062,Participant_62,user62@university.edu,Basketball,6,Attacker,85,Balanced
+Team 12,P056,Participant_56,user56@university.edu,Basketball,4,Strategist,86,Balanced
+Team 13,P010,Participant_10,user10@university.edu,Valorant,5,Coordinator,96,Leader
+Team 13,P084,Participant_84,user84@university.edu,FIFA,5,Supporter,63,Thinker
+Team 13,P017,Participant_17,user17@university.edu,CS:GO,10,Attacker,77,Balanced
+Team 13,P038,Participant_38,user38@university.edu,Valorant,1,Defender,78,Balanced
+Team 14,P034,Participant_34,user34@university.edu,FIFA,7,Supporter,91,Leader
+Team 14,P066,Participant_66,user66@university.edu,Chess,1,Strategist,67,Thinker
+Team 14,P077,Participant_77,user77@university.edu,FIFA,2,Attacker,89,Balanced
+Team 15,P025,Participant_25,user25@university.edu,FIFA,9,Coordinator,100,Leader
+Team 15,P081,Participant_81,user81@university.edu,FIFA,10,Strategist,52,Thinker
+Team 15,P026,Participant_26,user26@university.edu,Chess,8,Strategist,74,Balanced
+Team 16,P067,Participant_67,user67@university.edu,Basketball,1,Attacker,92,Leader
+Team 16,P003,Participant_3,user3@university.edu,FIFA,4,Defender,66,Thinker
+Team 16,P044,Participant_44,user44@university.edu,FIFA,6,Supporter,71,Balanced
+Team 17,P046,Participant_46,user46@university.edu,CS:GO,5,Strategist,96,Leader
+Team 17,P069,Participant_69,user69@university.edu,CS:GO,5,Supporter,68,Thinker
+Team 17,P065,Participant_65,user65@university.edu,DOTA 2,7,Coordinator,77,Balanced
+Team 18,P091,Participant_91,user91@university.edu,FIFA,10,Strategist,98,Leader
+Team 18,P096,Participant_96,user96@university.edu,DOTA 2,8,Strategist,56,Thinker
+Team 18,P002,Participant_2,user2@university.edu,FIFA,5,Attacker,80,Balanced
+Team 19,P022,Participant_22,user22@university.edu,Chess,9,Attacker,97,Leader
+Team 19,P051,Participant_51,user51@university.edu,FIFA,2,Strategist,57,Thinker
+Team 19,P089,Participant_89,user89@university.edu,Chess,6,Supporter,75,Balanced
+Team 20,P094,Participant_94,user94@university.edu,CS:GO,2,Supporter,98,Leader
+Team 20,P024,Participant_24,user24@university.edu,DOTA 2,7,Supporter,63,Thinker
+Team 20,P071,Participant_71,user71@university.edu,Chess,8,Strategist,70,Balanced
+Team 21,P004,Participant_4,user4@university.edu,Basketball,4,Supporter,91,Leader
+Team 21,P099,Participant_99,user99@university.edu,Valorant,3,Supporter,66,Thinker
+Team 21,P032,Participant_32,user32@university.edu,DOTA 2,2,Attacker,86,Balanced
