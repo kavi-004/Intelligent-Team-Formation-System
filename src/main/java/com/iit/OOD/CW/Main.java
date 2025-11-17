@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         System.out.println("Intelligent Team Formation System");
 
         // Step 1: Load participants
