@@ -105,9 +105,7 @@ public class TeamBuilder {
     }
 
 
-    // ============================================================
     // POST-PROCESSING TEAM FIXES (GAME LIMIT + ROLE DIVERSITY)
-    // ============================================================
     private void fixTeamsConstraints(List<Team> teams) {
 
         List<Participant> overflow = new ArrayList<>();
