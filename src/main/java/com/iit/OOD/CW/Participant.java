@@ -13,14 +13,32 @@ public class Participant {
     // Constructor
     public Participant(String id, String name, String email, String game, int skillLevel,
                        String role, int personalityScore, String personalityType) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.game = game;
+
+        this.id = id != null ? id : "";
+        this.name = name != null ? name : "";
+        this.email = email != null ? email : "";
+        this.game = game != null ? game : "";
         this.skillLevel = skillLevel;
-        this.role = role;
+        this.role = role != null ? role : "";
         this.personalityScore = personalityScore;
-        this.personalityType = personalityType;
+        this.personalityType = personalityType != null ? personalityType : "";
+    }
+
+    // Validation helpers
+    public boolean hasValidSkill() {
+        return skillLevel >= 1 && skillLevel <= 5;
+    }
+
+    public boolean hasValidRole() {
+        return role != null && !role.trim().isEmpty();
+    }
+
+    public boolean hasValidPersonalityScore() {
+        return personalityScore >= 0 && personalityScore <= 100;
+    }
+
+    public boolean isValid() {
+        return hasValidSkill() && hasValidRole() && hasValidPersonalityScore();
     }
 
     // Getters
@@ -49,7 +67,5 @@ public class Participant {
                 "Participant{id='%s', name='%s', email='%s', game='%s', skillLevel=%d, role='%s', score=%d, type='%s'}",
                 id, name, email, game, skillLevel, role, personalityScore, personalityType
         );
-
     }
-
 }
