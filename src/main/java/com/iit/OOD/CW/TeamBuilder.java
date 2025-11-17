@@ -1,82 +1,130 @@
 package com.iit.OOD.CW;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TeamBuilder {
-    private List<Participant> participants;
-    private int teamSize;
+
+    private final List<Participant> participants;
+    private final int teamSize;
 
     public TeamBuilder(List<Participant> participants, int teamSize) {
-        this.participants = new ArrayList<>(participants);
+
+        // Validate participant list
+        if (participants == null || participants.isEmpty()) {
+            throw new IllegalArgumentException("Participant list cannot be empty.");
+        }
+
+        // Validate team size
+        if (teamSize <= 0) {
+            throw new IllegalArgumentException("Team size must be greater than zero.");
+        }
+
+        // Thread-safe structure
+        this.participants = new CopyOnWriteArrayList<>(participants);
         this.teamSize = teamSize;
     }
 
+
+    // ============================================================
+    //  MAIN TEAM FORMATION (THREAD-SAFE + ERROR-PROTECTED)
+    // ============================================================
     public List<Team> formTeams() {
-        List<Team> teams = new ArrayList<>();
-        Collections.shuffle(participants); // randomize participants
 
-        // Separate participants by personality type
-        List<Participant> leaders = new ArrayList<>();
-        List<Participant> thinkers = new ArrayList<>();
-        List<Participant> balanced = new ArrayList<>();
+        try {
+            Collections.shuffle(participants);
 
-        for (Participant p : participants) {
-            switch (p.getPersonalityType()) {
-                case "Leader" -> leaders.add(p);
-                case "Thinker" -> thinkers.add(p);
-                case "Balanced" -> balanced.add(p);
+            List<Team> teams = new ArrayList<>();
+
+            // Separate participants by personality type
+            List<Participant> leaders = new ArrayList<>();
+            List<Participant> thinkers = new ArrayList<>();
+            List<Participant> balanced = new ArrayList<>();
+
+            for (Participant p : participants) {
+                if (p == null) continue; // safety check
+
+                switch (p.getPersonalityType()) {
+                    case "Leader" -> leaders.add(p);
+                    case "Thinker" -> thinkers.add(p);
+                    default -> balanced.add(p);
+                }
             }
+
+            int totalTeams = (int) Math.ceil((double) participants.size() / teamSize);
+
+            for (int i = 0; i < totalTeams; i++) {
+                teams.add(new Team("Team " + (i + 1)));
+            }
+
+            // Assign based on type
+            assignParticipantsToTeams(leaders, teams, 1);
+            assignParticipantsToTeams(thinkers, teams, 2);
+            assignParticipantsToTeams(balanced, teams, teamSize);
+
+            // Post-processing adjustments
+            fixTeamsConstraints(teams);
+
+            return teams;
+
+        } catch (Exception e) {
+            System.err.println("⚠ Error while forming teams: " + e.getMessage());
+            return Collections.emptyList();
         }
-
-        int totalTeams = (int) Math.ceil((double) participants.size() / teamSize);
-        for (int i = 0; i < totalTeams; i++) {
-            teams.add(new Team("Team " + (i + 1)));
-        }
-
-        // Helper method to assign participants in round-robin
-        assignParticipantsToTeams(leaders, teams, 1);
-        assignParticipantsToTeams(thinkers, teams, 2);
-        assignParticipantsToTeams(balanced, teams, teamSize); // fill remaining slots
-
-        // Step: Enforce game cap and role diversity
-        fixTeamsConstraints(teams);
-
-        return teams;
     }
 
-    // Assign participants round-robin
+
+    // ============================================================
+    // ROUND-ROBIN ASSIGNMENT WITH SAFETY CHECKS
+    // ============================================================
     private void assignParticipantsToTeams(List<Participant> list, List<Team> teams, int maxPerTeam) {
+
+        if (list == null || list.isEmpty()) return;
+
         int teamIndex = 0;
+
         for (Participant p : list) {
+            if (p == null) continue;
+
             Team t = teams.get(teamIndex % teams.size());
-            if (t.getTeamSize() < maxPerTeam) {
+
+            if (!t.isFull(maxPerTeam)) {
                 t.addMember(p);
             } else {
-                // Try next team if current is full
+                // Try finding another team with space
                 for (Team nextTeam : teams) {
-                    if (nextTeam.getTeamSize() < maxPerTeam) {
+                    if (!nextTeam.isFull(maxPerTeam)) {
                         nextTeam.addMember(p);
                         break;
                     }
                 }
             }
+
             teamIndex++;
         }
     }
 
-    // Enforce max 2 per game and at least 3 roles per team
+
+    // ============================================================
+    // POST-PROCESSING TEAM FIXES (GAME LIMIT + ROLE DIVERSITY)
+    // ============================================================
     private void fixTeamsConstraints(List<Team> teams) {
+
         List<Participant> overflow = new ArrayList<>();
 
         for (Team t : teams) {
+
             Map<String, Integer> gameCount = new HashMap<>();
-            Map<String, Integer> roleCount = new HashMap<>();
-            for (Participant p : t.getMembers()) {
-                gameCount.put(p.getGame(), gameCount.getOrDefault(p.getGame(), 0) + 1);
-                roleCount.put(p.getRole(), roleCount.getOrDefault(p.getRole(), 0) + 1);
-            }
 
             List<Participant> toRemove = new ArrayList<>();
+
+            // Count games
+            for (Participant p : t.getMembers()) {
+                gameCount.put(p.getGame(),
+                        gameCount.getOrDefault(p.getGame(), 0) + 1);
+            }
+
+            // Remove extras
             for (Participant p : t.getMembers()) {
                 if (gameCount.get(p.getGame()) > 2) {
                     toRemove.add(p);
@@ -86,13 +134,15 @@ public class TeamBuilder {
 
             t.getMembers().removeAll(toRemove);
             overflow.addAll(toRemove);
-
         }
 
-         // Reassign overflow participants to teams with space
+        // Reassign overflow
         for (Participant p : overflow) {
             for (Team t : teams) {
-                long count = t.getMembers().stream().filter(mem -> mem.getGame().equals(p.getGame())).count();
+                long count = t.getMembers().stream()
+                        .filter(mem -> mem.getGame().equals(p.getGame()))
+                        .count();
+
                 if (count < 2 && t.getTeamSize() < teamSize) {
                     t.addMember(p);
                     break;
