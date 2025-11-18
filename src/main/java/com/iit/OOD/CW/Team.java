@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Team {
-    private String teamName;
+    private final String teamName;
     private final List<Participant> members;
 
     public Team(String teamName) {
@@ -21,46 +21,53 @@ public class Team {
         return members;
     }
 
-    // Safe add method (null-check + synchronized)
-    public synchronized void addMember(Participant participant) {
+    public void addMember(Participant participant) {
         if (participant == null) {
-            System.err.println("⚠ Attempted to add a null participant to " + teamName);
+            System.err.println("⚠ Tried to add null participant to " + teamName);
             return;
         }
-        members.add(participant);
+
+        synchronized (members) {
+            members.add(participant);
+        }
     }
 
     public int getTeamSize() {
-        return members.size();
+        synchronized (members) {
+            return members.size();
+        }
     }
 
     public boolean isFull(int teamSize) {
-        return members.size() >= teamSize;
+        synchronized (members) {
+            return members.size() >= teamSize;
+        }
     }
 
     public double getAverageSkillLevel() {
-        if (members.isEmpty()) return 0.0;
-        double total = 0;
         synchronized (members) {
+            if (members.isEmpty()) return 0;
+
+            double sum = 0;
             for (Participant p : members) {
-                total += p.getSkillLevel();
+                sum += p.getSkillLevel();
             }
+            return sum / members.size();
         }
-        return total / members.size();
     }
 
     public double getAveragePersonalityScore() {
-        if (members.isEmpty()) return 0.0;
-        double total = 0;
         synchronized (members) {
+            if (members.isEmpty()) return 0;
+
+            double sum = 0;
             for (Participant p : members) {
-                total += p.getPersonalityScore();
+                sum += p.getPersonalityScore();
             }
+            return sum / members.size();
         }
-        return total / members.size();
     }
 
-    // Helper for CSV export
     public String getSummaryRow() {
         return teamName + "," + getTeamSize() + "," +
                 getAverageSkillLevel() + "," +
@@ -70,6 +77,7 @@ public class Team {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Team: " + teamName + "\nMembers:\n");
+
         synchronized (members) {
             for (Participant p : members) {
                 sb.append(" - ").append(p.getName())
@@ -80,6 +88,7 @@ public class Team {
                         .append(")\n");
             }
         }
+
         return sb.toString();
     }
 }

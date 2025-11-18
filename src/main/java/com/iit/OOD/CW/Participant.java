@@ -11,17 +11,23 @@ public class Participant {
     private String personalityType;
 
     // Constructor
-    public Participant(String id, String name, String email, String game, int skillLevel,
-                       String role, int personalityScore, String personalityType) {
+    public Participant(String id, String name, String email, String game,
+                       int skillLevel, String role, int personalityScore, String personalityType) {
 
-        this.id = id != null ? id : "";
-        this.name = name != null ? name : "";
-        this.email = email != null ? email : "";
-        this.game = game != null ? game : "";
+        this.id = id != null ? id.trim() : "";
+        this.name = name != null ? name.trim() : "";
+        this.email = email != null ? email.trim() : "";
+        this.game = game != null ? game.trim() : "";
         this.skillLevel = skillLevel;
-        this.role = role != null ? role : "";
+        this.role = role != null ? role.trim() : "";
         this.personalityScore = personalityScore;
-        this.personalityType = personalityType != null ? personalityType : "";
+
+        // Auto-generate type if missing or invalid
+        if (personalityType == null || personalityType.isBlank()) {
+            this.personalityType = PersonalityClassifier.classifyPersonality(personalityScore);
+        } else {
+            this.personalityType = personalityType.trim();
+        }
     }
 
     // Validation helpers
@@ -68,5 +74,4 @@ public class Participant {
                 id, name, email, game, skillLevel, role, personalityScore, personalityType
         );
     }
-
 }
