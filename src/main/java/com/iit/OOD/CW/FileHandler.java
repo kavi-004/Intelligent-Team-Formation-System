@@ -6,120 +6,82 @@ import java.util.List;
 
 public class FileHandler {
 
-    // =========================================================
-    // READ PARTICIPANTS FROM CSV (FULLY VALIDATED)
-    // =========================================================
-    public static List<Participant> readParticipantsFromCSV(String filePath) {
+    public List<Participant> readParticipantsFromCSV(String filePath) {
         List<Participant> participants = new ArrayList<>();
+        File file = new File(filePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        if (!file.exists()) {
+            System.out.println("❌ File not found: " + filePath);
+            return participants;
+        }
 
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            boolean isFirstLine = true;
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
 
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue; // skip header
-                }
-
-                String[] data = line.split(",");
-
-                // MUST have all 8 fields
-                if (data.length < 8) {
-                    System.out.println("⚠ Skipped row: Not enough fields → " + line);
+                if (firstLine) {
+                    firstLine = false; // skip header
                     continue;
                 }
 
+                String[] data = line.split(",", -1);
+                if (data.length < 8) continue;
+
+                for (int i = 0; i < data.length; i++) data[i] = data[i].trim().replaceAll("\"", "");
+
                 try {
-                    String id = data[0].trim();
-                    String name = data[1].trim();
-                    String email = data[2].trim();
-                    String game = data[3].trim();
-                    String skillStr = data[4].trim();
-                    String role = data[5].trim();
-                    String scoreStr = data[6].trim();
-                    String personalityType = data[7].trim();
+                    String id = data[0];
+                    String name = data[1];
+                    String email = data[2];
+                    String game = data[3];
+                    int skillLevel = Integer.parseInt(data[4]);
+                    String role = data[5];
+                    int personalityScore = Integer.parseInt(data[6]);
+                    String personalityType = data[7];
 
-                    // BASIC EMPTY VALIDATION
-                    if (id.isEmpty() || name.isEmpty() || email.isEmpty() || game.isEmpty() || role.isEmpty()) {
-                        System.out.println("⚠ Skipped row: Missing required fields → " + line);
-                        continue;
-                    }
-
-                    // NUMBER VALIDATION
-                    int skillLevel;
-                    int personalityScore;
-
-                    try {
-                        skillLevel = Integer.parseInt(skillStr);
-                        personalityScore = Integer.parseInt(scoreStr);
-                    } catch (NumberFormatException ex) {
-                        System.out.println("⚠ Skipped row: Invalid number format → " + line);
-                        continue;
-                    }
-
-                    // PERSONALITY SCORE VALIDATION
-                    if (!PersonalityClassifier.isValidScore(personalityScore)) {
-                        System.out.println("⚠ Skipped row: Invalid personality score → " + personalityScore);
-                        continue;
-                    }
-
-                    // ROLE VALIDATION
-                    if (!RoleValidator.isValidRole(role)) {
-                        System.out.println("⚠ Skipped row: Invalid role → " + role);
-                        continue;
-                    }
-
-                    // Final add
-                    participants.add(new Participant(
-                            id, name, email, game, skillLevel, role, personalityScore, personalityType
-                    ));
-
+                    participants.add(new Participant(id, name, email, game, skillLevel, role, personalityScore, personalityType));
+                } catch (NumberFormatException nfe) {
+                    System.out.println("⚠ Skipped row (invalid number): " + line);
                 } catch (Exception e) {
-                    System.out.println("⚠ Critical row error, skipping line: " + line);
+                    System.out.println("⚠ Skipped row (error): " + line);
                 }
             }
 
         } catch (IOException e) {
-            System.out.println("❌ Error reading CSV file: " + e.getMessage());
+            System.out.println("❌ Error reading CSV: " + e.getMessage());
         }
 
-        System.out.println("📌 " + participants.size() + " valid participants loaded successfully!");
+        System.out.println("📌 Participants loaded: " + participants.size());
         return participants;
     }
 
-
-
-    // =========================================================
-    // SAVE TEAMS TO CSV
-    // =========================================================
     public void saveTeamsToCSV(List<Team> teams, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-
             writer.write("Team,ID,Name,Email,PreferredGame,SkillLevel,PreferredRole,PersonalityScore,PersonalityType");
             writer.newLine();
 
             for (Team team : teams) {
                 for (Participant p : team.getMembers()) {
-
-                    writer.write(
-                            team.getTeamName() + "," +
-                                    p.getId() + "," +
-                                    p.getName() + "," +
-                                    p.getEmail() + "," +
-                                    p.getGame() + "," +
-                                    p.getSkillLevel() + "," +
-                                    p.getRole() + "," +
-                                    p.getPersonalityScore() + "," +
-                                    p.getPersonalityType()
-                    );
+                    writer.write(String.join(",",
+                            team.getTeamName(),
+                            p.getId(),
+                            p.getName(),
+                            p.getEmail(),
+                            p.getGame(),
+                            String.valueOf(p.getSkillLevel()),
+                            p.getRole(),
+                            String.valueOf(p.getPersonalityScore()),
+                            p.getPersonalityType()
+                    ));
                     writer.newLine();
                 }
             }
 
-            System.out.println("✅ Formed teams CSV created successfully → " + filePath);
+            System.out.println("✅ Teams saved successfully → " + filePath);
 
         } catch (IOException e) {
             System.out.println("❌ Error writing CSV: " + e.getMessage());

@@ -1,151 +1,100 @@
 package com.iit.OOD.CW;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 public class TeamBuilder {
+    private List<Participant> participants;
+    private int teamSize;
+    private List<Team> formedTeams = Collections.synchronizedList(new ArrayList<>());
+    private Participant user; // the single participant user
 
-    private final List<Participant> participants;
-    private final int teamSize;
-
-    public TeamBuilder(List<Participant> participants, int teamSize) {
-
-        // Validate participant list
-        if (participants == null || participants.isEmpty()) {
-            throw new IllegalArgumentException("Participant list cannot be empty.");
-        }
-
-        // Validate team size
-        if (teamSize <= 0) {
-            throw new IllegalArgumentException("Team size must be greater than zero.");
-        }
-
-        // Thread-safe structure
-        this.participants = new CopyOnWriteArrayList<>(participants);
+    public TeamBuilder(Participant user, List<Participant> participants, int teamSize) {
+        this.user = user;
+        this.participants = new ArrayList<>(participants);
+        this.participants.add(user); // add user to the list
         this.teamSize = teamSize;
     }
 
-
-    // ============================================================
-    //  MAIN TEAM FORMATION (THREAD-SAFE + ERROR-PROTECTED)
-    // ============================================================
     public List<Team> formTeams() {
+        int totalTeams = (int) Math.ceil((double) participants.size() / teamSize);
+        ExecutorService executor = Executors.newFixedThreadPool(Math.min(totalTeams, 4));
+        List<Future<Team>> futures = new ArrayList<>();
 
-        try {
-            Collections.shuffle(participants);
-
-            List<Team> teams = new ArrayList<>();
-
-            // Separate participants by personality type
-            List<Participant> leaders = new ArrayList<>();
-            List<Participant> thinkers = new ArrayList<>();
-            List<Participant> balanced = new ArrayList<>();
-
-            for (Participant p : participants) {
-                if (p == null) continue; // safety check
-
-                switch (p.getPersonalityType()) {
-                    case "Leader" -> leaders.add(p);
-                    case "Thinker" -> thinkers.add(p);
-                    default -> balanced.add(p);
-                }
-            }
-
-            int totalTeams = (int) Math.ceil((double) participants.size() / teamSize);
-
-            for (int i = 0; i < totalTeams; i++) {
-                teams.add(new Team("Team " + (i + 1)));
-            }
-
-            // Assign based on type
-            assignParticipantsToTeams(leaders, teams, 1);
-            assignParticipantsToTeams(thinkers, teams, 2);
-            assignParticipantsToTeams(balanced, teams, teamSize);
-
-            // Post-processing adjustments
-            fixTeamsConstraints(teams);
-
-            return teams;
-
-        } catch (Exception e) {
-            System.err.println("⚠ Error while forming teams: " + e.getMessage());
-            return Collections.emptyList();
+        for (int i = 0; i < totalTeams; i++) {
+            futures.add(executor.submit(this::createTeam));
         }
+
+        for (Future<Team> f : futures) {
+            try {
+                Team team = f.get();
+                if (team != null) formedTeams.add(team);
+            } catch (Exception e) {
+                System.out.println("⚠ Error forming team: " + e.getMessage());
+            }
+        }
+
+        executor.shutdown();
+
+        // Display user's team clearly
+        Team userTeam = formedTeams.stream()
+                .filter(t -> t.getMembers().contains(user))
+                .findFirst()
+                .orElse(null);
+
+        if (userTeam != null) {
+            System.out.println("\n🎯 Your team: " + userTeam.getTeamName());
+            userTeam.getMembers().forEach(p ->
+                    System.out.println(p.getName() + " - Role: " + p.getRole() + " - Personality: " + p.getPersonalityType()));
+        } else {
+            System.out.println("⚠ Could not find your team!");
+        }
+
+        return formedTeams;
     }
 
+    private Team createTeam() {
+        List<Participant> teamMembers = new ArrayList<>();
+        Random rnd = new Random();
 
-    // ============================================================
-    // ROUND-ROBIN ASSIGNMENT WITH SAFETY CHECKS
-    // ============================================================
-    private void assignParticipantsToTeams(List<Participant> list, List<Team> teams, int maxPerTeam) {
+        // Shuffle participants for random selection
+        List<Participant> copy = new ArrayList<>(participants);
+        Collections.shuffle(copy);
 
-        if (list == null || list.isEmpty()) return;
+        Map<String, Integer> gameCount = new HashMap<>();
+        Set<String> roles = new HashSet<>();
+        int leaders = 0;
+        int thinkers = 0;
 
-        int teamIndex = 0;
+        for (Participant p : copy) {
+            if (teamMembers.size() >= teamSize) break;
 
-        for (Participant p : list) {
-            if (p == null) continue;
+            // Game cap: max 2 players per game
+            gameCount.putIfAbsent(p.getGame(), 0);
+            if (gameCount.get(p.getGame()) >= 2) continue;
 
-            Team t = teams.get(teamIndex % teams.size());
+            // Role diversity: at least 3 different roles
+            if (roles.size() < 3 && roles.contains(p.getRole())) continue;
 
-            if (!t.isFull(maxPerTeam)) {
-                t.addMember(p);
-            } else {
-                // Try finding another team with space
-                for (Team nextTeam : teams) {
-                    if (!nextTeam.isFull(maxPerTeam)) {
-                        nextTeam.addMember(p);
-                        break;
-                    }
-                }
-            }
+            // Personality mix
+            if (p.getPersonalityType().equalsIgnoreCase("Leader") && leaders >= 1) continue;
+            if (p.getPersonalityType().equalsIgnoreCase("Thinker") && thinkers >= 2) continue;
 
-            teamIndex++;
-        }
-    }
-
-
-    // POST-PROCESSING TEAM FIXES (GAME LIMIT + ROLE DIVERSITY)
-    private void fixTeamsConstraints(List<Team> teams) {
-
-        List<Participant> overflow = new ArrayList<>();
-
-        for (Team t : teams) {
-
-            Map<String, Integer> gameCount = new HashMap<>();
-
-            List<Participant> toRemove = new ArrayList<>();
-
-            // Count games
-            for (Participant p : t.getMembers()) {
-                gameCount.put(p.getGame(),
-                        gameCount.getOrDefault(p.getGame(), 0) + 1);
-            }
-
-            // Remove extras
-            for (Participant p : t.getMembers()) {
-                if (gameCount.get(p.getGame()) > 2) {
-                    toRemove.add(p);
-                    gameCount.put(p.getGame(), gameCount.get(p.getGame()) - 1);
-                }
-            }
-
-            t.getMembers().removeAll(toRemove);
-            overflow.addAll(toRemove);
+            // Add participant
+            teamMembers.add(p);
+            gameCount.put(p.getGame(), gameCount.get(p.getGame()) + 1);
+            roles.add(p.getRole());
+            if (p.getPersonalityType().equalsIgnoreCase("Leader")) leaders++;
+            if (p.getPersonalityType().equalsIgnoreCase("Thinker")) thinkers++;
         }
 
-        // Reassign overflow
-        for (Participant p : overflow) {
-            for (Team t : teams) {
-                long count = t.getMembers().stream()
-                        .filter(mem -> mem.getGame().equals(p.getGame()))
-                        .count();
-
-                if (count < 2 && t.getTeamSize() < teamSize) {
-                    t.addMember(p);
-                    break;
-                }
-            }
+        // Assign team name and create team
+        String teamName = "Team_" + (formedTeams.size() + 1);
+        Team team = new Team(teamName);
+        for (Participant p : teamMembers) {
+            team.addMember(p);
         }
+
+        return team;
     }
 }

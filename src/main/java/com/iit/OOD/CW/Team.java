@@ -13,6 +13,9 @@ public class Team {
         this.members = Collections.synchronizedList(new ArrayList<>());
     }
 
+    // =========================
+    // Getters
+    // =========================
     public String getTeamName() {
         return teamName;
     }
@@ -21,74 +24,57 @@ public class Team {
         return members;
     }
 
-    public void addMember(Participant participant) {
-        if (participant == null) {
-            System.err.println("⚠ Tried to add null participant to " + teamName);
-            return;
-        }
-
-        synchronized (members) {
-            members.add(participant);
-        }
+    // =========================
+    // Add a participant
+    // =========================
+    public void addMember(Participant p) {
+        if (p != null) members.add(p);
     }
 
-    public int getTeamSize() {
-        synchronized (members) {
-            return members.size();
-        }
-    }
-
+    // =========================
+    // Check if team is full
+    // =========================
     public boolean isFull(int teamSize) {
-        synchronized (members) {
-            return members.size() >= teamSize;
-        }
+        return members.size() >= teamSize;
     }
 
+    // =========================
+    // Current team size
+    // =========================
+    public int getTeamSize() {
+        return members.size();
+    }
+
+    // =========================
+    // Average skill level
+    // =========================
     public double getAverageSkillLevel() {
-        synchronized (members) {
-            if (members.isEmpty()) return 0;
-
-            double sum = 0;
-            for (Participant p : members) {
-                sum += p.getSkillLevel();
-            }
-            return sum / members.size();
-        }
+        if (members.isEmpty()) return 0;
+        double sum = 0;
+        for (Participant p : members) sum += p.getSkillLevel();
+        return sum / members.size();
     }
 
+    // =========================
+    // Average personality score
+    // =========================
     public double getAveragePersonalityScore() {
-        synchronized (members) {
-            if (members.isEmpty()) return 0;
-
-            double sum = 0;
-            for (Participant p : members) {
-                sum += p.getPersonalityScore();
-            }
-            return sum / members.size();
-        }
+        if (members.isEmpty()) return 0;
+        double sum = 0;
+        for (Participant p : members) sum += p.getPersonalityScore();
+        return sum / members.size();
     }
 
-    public String getSummaryRow() {
-        return teamName + "," + getTeamSize() + "," +
-                getAverageSkillLevel() + "," +
-                getAveragePersonalityScore();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Team: " + teamName + "\nMembers:\n");
-
-        synchronized (members) {
-            for (Participant p : members) {
-                sb.append(" - ").append(p.getName())
-                        .append(" (Role: ").append(p.getRole())
-                        .append(", Game: ").append(p.getGame())
-                        .append(", Skill: ").append(p.getSkillLevel())
-                        .append(", Personality: ").append(p.getPersonalityScore())
-                        .append(")\n");
-            }
+    // =========================
+    // Display full team details
+    // =========================
+    public void displayTeamDetails() {
+        System.out.println("\nTeam: " + teamName);
+        for (Participant p : members) {
+            System.out.println("- " + p.getName() + " | Role: " + p.getRole() + " | Game: " + p.getGame()
+                    + " | Personality: " + p.getPersonalityType() + " | Skill: " + p.getSkillLevel());
         }
-
-        return sb.toString();
+        System.out.printf("Average Skill: %.2f | Average Personality: %.2f\n",
+                getAverageSkillLevel(), getAveragePersonalityScore());
     }
 }

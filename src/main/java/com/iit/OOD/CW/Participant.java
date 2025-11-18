@@ -10,10 +10,8 @@ public class Participant {
     private int personalityScore;
     private String personalityType;
 
-    // Constructor
     public Participant(String id, String name, String email, String game,
                        int skillLevel, String role, int personalityScore, String personalityType) {
-
         this.id = id != null ? id.trim() : "";
         this.name = name != null ? name.trim() : "";
         this.email = email != null ? email.trim() : "";
@@ -22,29 +20,11 @@ public class Participant {
         this.role = role != null ? role.trim() : "";
         this.personalityScore = personalityScore;
 
-        // Auto-generate type if missing or invalid
         if (personalityType == null || personalityType.isBlank()) {
             this.personalityType = PersonalityClassifier.classifyPersonality(personalityScore);
         } else {
             this.personalityType = personalityType.trim();
         }
-    }
-
-    // Validation helpers
-    public boolean hasValidSkill() {
-        return skillLevel >= 1 && skillLevel <= 5;
-    }
-
-    public boolean hasValidRole() {
-        return role != null && !role.trim().isEmpty();
-    }
-
-    public boolean hasValidPersonalityScore() {
-        return personalityScore >= 0 && personalityScore <= 100;
-    }
-
-    public boolean isValid() {
-        return hasValidSkill() && hasValidRole() && hasValidPersonalityScore();
     }
 
     // Getters
