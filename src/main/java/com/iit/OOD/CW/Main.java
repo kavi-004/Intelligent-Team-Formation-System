@@ -49,5 +49,4 @@ public class Main {
         System.out.println("✅ Teams created: " + teams.size());
         System.out.println("✅ CSV saved to: " + outputFile);
     }
-
 }
