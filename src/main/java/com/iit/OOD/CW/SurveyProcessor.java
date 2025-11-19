@@ -116,6 +116,7 @@ public class SurveyProcessor {
 
         executor.shutdown();
         return validated;
+
     }
 
     private String classifyPersonality(int score) {
