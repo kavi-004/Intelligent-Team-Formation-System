@@ -54,5 +54,4 @@ public class Participant {
                 id, name, email, game, skillLevel, role, personalityScore, personalityType
         );
     }
-
 }
