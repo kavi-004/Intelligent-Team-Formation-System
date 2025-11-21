@@ -24,7 +24,7 @@ public class FileHandler {
                 if (line.isEmpty()) continue;
 
                 if (firstLine) {
-                    firstLine = false; // skip header
+                    firstLine = false;
                     continue;
                 }
 
@@ -34,23 +34,15 @@ public class FileHandler {
                 for (int i = 0; i < data.length; i++) data[i] = data[i].trim().replaceAll("\"", "");
 
                 try {
-                    String id = data[0];
-                    String name = data[1];
-                    String email = data[2];
-                    String game = data[3];
-                    int skillLevel = Integer.parseInt(data[4]);
-                    String role = data[5];
-                    int personalityScore = Integer.parseInt(data[6]);
-                    String personalityType = data[7];
-
-                    participants.add(new Participant(id, name, email, game, skillLevel, role, personalityScore, personalityType));
-                } catch (NumberFormatException nfe) {
-                    System.out.println("⚠ Skipped row (invalid number): " + line);
+                    participants.add(new Participant(
+                            data[0], data[1], data[2], data[3],
+                            Integer.parseInt(data[4]), data[5],
+                            Integer.parseInt(data[6]), data[7]
+                    ));
                 } catch (Exception e) {
-                    System.out.println("⚠ Skipped row (error): " + line);
+                    System.out.println("⚠ Skipped row: " + line);
                 }
             }
-
         } catch (IOException e) {
             System.out.println("❌ Error reading CSV: " + e.getMessage());
         }
@@ -86,5 +78,69 @@ public class FileHandler {
         } catch (IOException e) {
             System.out.println("❌ Error writing CSV: " + e.getMessage());
         }
+    }
+
+    public void appendParticipantToCSV(Participant p, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(String.join(",",
+                    p.getId(),
+                    p.getName(),
+                    p.getEmail(),
+                    p.getGame(),
+                    String.valueOf(p.getSkillLevel()),
+                    p.getRole(),
+                    String.valueOf(p.getPersonalityScore()),
+                    p.getPersonalityType()
+            ));
+            writer.newLine();
+            System.out.println("➕ Appended participant to CSV: " + p.getName());
+        } catch (IOException e) {
+            System.out.println("❌ Error appending participant: " + e.getMessage());
+        }
+    }
+
+    public List<Team> readTeamsFromCSV(String filePath) {
+        List<Team> teams = new ArrayList<>();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("❌ Team CSV not found: " + filePath);
+            return teams;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean first = true;
+            Team currentTeam = null;
+
+            while ((line = br.readLine()) != null) {
+                if (first) {
+                    first = false;
+                    continue;
+                }
+
+                String[] d = line.split(",", -1);
+                if (d.length < 9) continue;
+
+                String teamName = d[0];
+
+                if (currentTeam == null || !currentTeam.getTeamName().equals(teamName)) {
+                    currentTeam = new Team(teamName);
+                    teams.add(currentTeam);
+                }
+
+                currentTeam.addMember(new Participant(
+                        d[1], d[2], d[3], d[4],
+                        Integer.parseInt(d[5]),
+                        d[6],
+                        Integer.parseInt(d[7]),
+                        d[8]
+                ));
+            }
+
+        } catch (IOException e) {
+            System.out.println("❌ Error reading teams file: " + e.getMessage());
+        }
+
+        return teams;
     }
 }
