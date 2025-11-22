@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 
 public class SurveyProcessor {
 
-    private final String[] validGames = {"Chess", "CS:GO", "Valorant", "Basketball", "FIFA", "DOTA"};
+    private final String[] validGames = {"Chess", "CS:GO", "Valorant", "Basketball", "FIFA", "DOTA 2"};
     private final String[] validRoles = {"Strategist", "Attacker", "Defender", "Supporter", "Coordinator"};
 
     /**
@@ -19,35 +19,35 @@ public class SurveyProcessor {
         while (id.isBlank()) {
             System.out.print("ID: ");
             id = sc.nextLine().trim();
-            if (id.isBlank()) System.out.println("⚠ ID cannot be empty!");
+            if (id.isBlank()) System.out.println("ID cannot be empty!");
         }
 
         String name = "";
         while (name.isBlank()) {
             System.out.print("Name: ");
             name = sc.nextLine().trim();
-            if (name.isBlank()) System.out.println("⚠ Name cannot be empty!");
+            if (name.isBlank()) System.out.println("Name cannot be empty!");
         }
 
         String email = "";
         while (email.isBlank() || !isValidEmail(email)) {
             System.out.print("Email: ");
             email = sc.nextLine().trim();
-            if (email.isBlank() || !isValidEmail(email)) System.out.println("⚠ Enter a valid email!");
+            if (email.isBlank() || !isValidEmail(email)) System.out.println("Enter a valid email!");
         }
 
         String game = "";
         while (game.isBlank() || !isValidGame(game)) {
-            System.out.print("Preferred Game (Chess, CS:GO, Valorant, Basketball, FIFA, DOTA): ");
+            System.out.print("Preferred Game (Chess, CS:GO, Valorant, Basketball, FIFA, DOTA 2): ");
             game = sc.nextLine().trim();
-            if (!isValidGame(game)) System.out.println("⚠ Choose a valid game from the list!");
+            if (!isValidGame(game)) System.out.println("Choose a valid game from the list!");
         }
 
         String role = "";
         while (role.isBlank() || !isValidRole(role)) {
             System.out.print("Preferred Role (Strategist/Attacker/Defender/Supporter/Coordinator): ");
             role = sc.nextLine().trim();
-            if (!isValidRole(role)) System.out.println("⚠ Choose a valid role from the list!");
+            if (!isValidRole(role)) System.out.println("Choose a valid role from the list!");
         }
 
         int totalScore = 0;
@@ -70,13 +70,17 @@ public class SurveyProcessor {
                     if (ans < 1 || ans > 5) throw new NumberFormatException();
                     break;
                 } catch (NumberFormatException e) {
-                    System.out.println("⚠ Enter a number 1–5!");
+                    System.out.println("Enter a number 1–5!");
                 }
             }
             totalScore += ans;
         }
 
         int personalityScore = totalScore * 4;
+        // Ensure personality score bounded
+        if (personalityScore < 0) personalityScore = 0;
+        if (personalityScore > 100) personalityScore = 100;
+
         String personalityType = classifyPersonality(personalityScore);
 
         int skillLevel = 0;
@@ -87,7 +91,7 @@ public class SurveyProcessor {
                 if (skillLevel < 1 || skillLevel > 10) throw new NumberFormatException();
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("⚠ Enter a number 1–10!");
+                System.out.println("Enter a number 1–10!");
             }
         }
 
@@ -102,8 +106,11 @@ public class SurveyProcessor {
         Future<Participant> future = executor.submit(() -> {
             if (p.getName() == null || p.getName().isBlank()) throw new IllegalArgumentException("Missing name.");
             if (p.getRole() == null || p.getRole().isBlank()) throw new IllegalArgumentException("Missing role.");
+            if (!isValidRole(p.getRole())) throw new IllegalArgumentException("Invalid role.");
             if (p.getSkillLevel() < 1 || p.getSkillLevel() > 10) throw new IllegalArgumentException("Invalid skill level.");
             if (p.getPersonalityScore() < 0 || p.getPersonalityScore() > 100) throw new IllegalArgumentException("Invalid personality score.");
+            if (p.getGame() == null || p.getGame().isBlank() || !isValidGame(p.getGame())) throw new IllegalArgumentException("Invalid game.");
+            if (p.getEmail() == null || p.getEmail().isBlank() || !isValidEmail(p.getEmail())) throw new IllegalArgumentException("Invalid email.");
             return p;
         });
 
@@ -111,7 +118,7 @@ public class SurveyProcessor {
         try {
             validated = future.get();
         } catch (Exception e) {
-            System.out.println("⚠ Participant validation failed: " + e.getMessage());
+            System.out.println("Participant validation failed: " + e.getMessage());
         }
 
         executor.shutdown();
@@ -126,15 +133,18 @@ public class SurveyProcessor {
     }
 
     private boolean isValidEmail(String email) {
-        return email.contains("@") && email.contains(".");
+        // simple email sanity check
+        return email != null && email.contains("@") && email.contains(".") && email.indexOf('@') < email.lastIndexOf('.');
     }
 
     private boolean isValidGame(String game) {
+        if (game == null) return false;
         for (String g : validGames) if (g.equalsIgnoreCase(game)) return true;
         return false;
     }
 
     private boolean isValidRole(String role) {
+        if (role == null) return false;
         for (String r : validRoles) if (r.equalsIgnoreCase(role)) return true;
         return false;
     }

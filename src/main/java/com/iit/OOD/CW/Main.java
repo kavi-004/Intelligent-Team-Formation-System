@@ -33,26 +33,24 @@ public class Main {
                     p = surveyProcessor.validateParticipant(p);
 
                     if (p == null) {
-                        System.out.println("❌ Invalid submission. Try again.");
+                        System.out.println("Invalid submission. Try again.");
                         break;
                     }
 
                     fileHandler.appendParticipantToCSV(p, csvFile);
-                    System.out.println("✔ Participant successfully added!");
+                    System.out.println("Participant successfully added!");
                     break;
 
                 case "2":
                     // ORGANIZER MODE
                     System.out.println("\n--- Organizer Mode Activated ---");
 
-                    // Load participants from CSV
                     List<Participant> participants = fileHandler.readParticipantsFromCSV(csvFile);
                     if (participants.isEmpty()) {
-                        System.out.println("⚠ No participants loaded. Cannot form teams.");
+                        System.out.println("No participants loaded. Cannot form teams.");
                         break;
                     }
 
-                    // Input team size
                     int teamSize = 0;
                     while (true) {
                         System.out.print("Enter number of players per team: ");
@@ -61,30 +59,34 @@ public class Main {
                             if (teamSize < 2) throw new NumberFormatException();
                             break;
                         } catch (NumberFormatException e) {
-                            System.out.println("⚠ Enter a valid number (>=2).");
+                            System.out.println("Enter a valid number (>=2).");
                         }
                     }
 
-                    // Build teams using TeamBuilder (pass null as user for organizer)
                     TeamBuilder builder = new TeamBuilder(null, participants, teamSize);
                     List<Team> formedTeams = builder.formTeams();
 
                     fileHandler.saveTeamsToCSV(formedTeams, outputFile);
-                    System.out.println("✅ Teams created: " + formedTeams.size());
-                    System.out.println("✅ CSV saved to: " + outputFile);
+                    System.out.println("Teams created: " + formedTeams.size());
+                    System.out.println("CSV saved to: " + outputFile);
                     break;
 
                 case "3":
                     // VIEW TEAMS
                     System.out.println("\n--- Viewing Formed Teams ---");
                     List<Team> teams = fileHandler.readTeamsFromCSV(outputFile);
+
                     if (teams.isEmpty()) {
-                        System.out.println("⚠ No teams found!");
+                        System.out.println("No teams found!");
                     } else {
                         for (Team t : teams) {
                             System.out.println("\n" + t.getTeamName());
                             for (Participant member : t.getMembers()) {
-                                System.out.println(" - " + member.getName() + " | " + member.getRole() + " | " + member.getPersonalityType());
+                                System.out.println(" - " + member.getName()
+                                        + " | Role: " + member.getRole()
+                                        + " | Game: " + member.getGame()
+                                        + " | Personality: " + member.getPersonalityType()
+                                        + " | Skill: " + member.getSkillLevel());
                             }
                         }
                     }
@@ -96,7 +98,7 @@ public class Main {
                     return;
 
                 default:
-                    System.out.println("⚠ Invalid choice, try again.");
+                    System.out.println("Invalid choice, try again.");
             }
         }
     }
